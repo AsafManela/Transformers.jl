@@ -61,12 +61,12 @@ function loss(data, ind, masklabel, nextlabel, mask = nothing)
   e = bert_model.embed(data)
   t = bert_model.transformers(e, mask)
   nextloss = Basic.logcrossentropy(
+    nextlabel,
     bert_model.classifier.nextsentence(
       bert_model.classifier.pooler(
         t[:,1,:]
       )
-    ),
-    nextlabel
+    )    
   )
   mkloss = masklmloss(bert_model.embed.embeddings.tok,
                       bert_model.classifier.masklm.transform,
